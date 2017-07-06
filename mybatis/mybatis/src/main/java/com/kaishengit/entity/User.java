@@ -6,7 +6,23 @@ public class User {
 	private String userName;
 	private String address;
 	private String password;
+	private Integer deptId;
 	
+	private Dept dept;
+	
+	public Integer getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+	
+	public Dept getDept() {
+		return dept;
+	}
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -31,6 +47,9 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", address=" + address + ", password=" + password + "]";
+	}
 	
 }

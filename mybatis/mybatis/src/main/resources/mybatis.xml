@@ -4,13 +4,18 @@
 
 <configuration>
 	
+	
 	<settings>
+		<!--  将下划线转化为驼峰命名法   -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
-	
+
+	<!-- 配置别名  -->
 	<typeAliases>
 		<typeAlias type="com.kaishengit.entity.User" alias="User"/>
+		<typeAlias type="com.kaishengit.entity.Dept" alias="Dept"/>
 	</typeAliases>
+    
 
 	<environments default="dev">
 		<environment id="dev">
@@ -24,7 +29,10 @@
 		</environment>
 	</environments>
 	
+	
 	<mappers>
-		<mapper resource="mapper/userMapper.xml"/>
-	</mappers>
+		<mapper resource="mapper/UserMapper.xml"/>
+		<mapper resource="mapper/DeptMapper.xml"/>
+	</mappers>	
+
 </configuration>

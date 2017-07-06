@@ -27,7 +27,6 @@ public class MyBatisTest {
 	@Test
 	public void findById() throws Exception{
 		
-		
 		SqlSession sqlSession = MyBatisUtil.getSession();
 		User user = sqlSession.selectOne("com.kaishengit.mapper.UserMapper.findById",1);
 		System.out.println(user.getUserName());
@@ -49,6 +48,52 @@ public class MyBatisTest {
 		
 		sqlSession.close();
 	}
+	
+	
+	@Test
+	public void delete(){
+		
+		SqlSession sqlSession = MyBatisUtil.getSession();
+		
+		sqlSession.delete("com.kaishengit.mapper.UserMapper.delById",2);
+		
+		sqlSession.commit();
+		
+		sqlSession.close();
+		
+	}
+	
+	
+	@Test
+	public void update() throws Exception {
+		
+		SqlSession sqlSession = MyBatisUtil.getSession();
+		
+		User user = sqlSession.selectOne("com.kaishengit.mapper.UserMapper.findById",1);
+		user.setAddress("上海");
+		
+		sqlSession.update("com.kaishengit.mapper.UserMapper.update",user);
+		
+		sqlSession.commit();
+		
+		sqlSession.close();
+	}
+	
+	@Test
+	public void save(){
+		SqlSession sqlSession = MyBatisUtil.getSession();
+		
+		User user = new User();
+		user.setAddress("北京");
+		user.setPassword("123123");
+		user.setUserName("王五");
+		
+		sqlSession.insert("com.kaishengit.mapper.UserMapper.save",user);
+		
+		sqlSession.commit();
+		sqlSession.close();
+	}
+	
 	
 	
 	

@@ -21,7 +21,6 @@
 		    <artifactId>junit</artifactId>
 		    <version>${junit-version}</version>
 		</dependency>
-		
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

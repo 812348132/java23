@@ -3,6 +3,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kaishengit.mapper.UserMapper">
+
+		<!-- namespace属性值推荐写成类似完全限定名的形式 -->
+
+			<!-- 
+				根据Id查询User对象
+				id: 类似方法名
+				parameterType : 参数类型（可选）
+				resultType : 返回值类型(可选) 
+			-->
 	
 	<select id="findById" parameterType="int" resultType="User">
 		select * from t_user where id = #{id}
@@ -11,5 +20,56 @@
 	<select id="findAll" resultType="User">
 		select * from t_user
 	</select>
+	
+	<delete id="delById" parameterType="int">
+		delete from t_user where id = #{id}	
+	</delete>
+	
+	<update id="update" parameterType="User">
+		update t_user set user_name=#{userName},password=#{password},address=#{address} where id = #{id} 
+	</update>
+	
+	<insert id="save" parameterType="User">
+		insert into t_user (user_name,password,address) values(#{userName},#{password},#{address})
+	</insert>
+	
+	<!-- OGNL  对象导航图语言  --> 
+	<select id="findAllLoadDept" resultType="User">
+		SELECT
+			t_user.*, t_dept.id AS `dept.id`,
+			t_dept.dept_name AS `dept.deptName`
+		FROM
+			t_user,
+			t_dept
+		WHERE
+			t_user.dept_id = t_dept.id
+	</select>
+	
+	<!-- <select id="findAllLoadDept" resultMap="UserMap">
+		SELECT
+			t_user.id,
+			user_name,
+			address,
+			PASSWORD,
+			dept_id,
+			dept_name
+		FROM
+			t_user,
+			t_dept
+		WHERE
+			t_user.dept_id = t_dept.id
+	</select>
+	
+	<resultMap type="User" id="UserMap">
+		<id column="id" property="id"/>
+		<result column="user_name" property="userName"/>
+		<result column="address" property="address"/>
+		<result column="password" property="password"/>
+		<result column="dept_id" property="deptId"/>
+		<association property="dept" javaType="Dept">
+			<id column="dept_id" property="id"/>
+			<result column="dept_name" property="deptName"/>
+		</association>
+	</resultMap> -->
 
 </mapper>
