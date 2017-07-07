@@ -4,17 +4,23 @@
 
 <configuration>
 	
-	
 	<settings>
 		<!--  将下划线转化为驼峰命名法   -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
+	
 
 	<!-- 配置别名  -->
 	<typeAliases>
 		<typeAlias type="com.kaishengit.entity.User" alias="User"/>
 		<typeAlias type="com.kaishengit.entity.Dept" alias="Dept"/>
 	</typeAliases>
+	
+	
+	<plugins>
+		<!-- 添加分页插件 -->
+		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+	</plugins>
     
 
 	<environments default="dev">
@@ -22,7 +28,7 @@
 			<transactionManager type="JDBC"></transactionManager>
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql:///db_23"/>
+				<property name="url" value="jdbc:mysql:///mydb"/>
 				<property name="username" value="root"/>
 				<property name="password" value="root"/>
 			</dataSource>
@@ -31,8 +37,9 @@
 	
 	
 	<mappers>
-		<mapper resource="mapper/UserMapper.xml"/>
+		<!-- <mapper resource="mapper/UserMapper.xml"/> -->
 		<mapper resource="mapper/DeptMapper.xml"/>
+		<mapper class="com.kaishengit.mapper.UserMapper"/>
 	</mappers>	
 
 </configuration>
