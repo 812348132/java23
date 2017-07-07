@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="userDao" class="com.kaishengit.dao.UserDao" scope="singleton" lazy-init="true" init-method="init" destroy-method="destory"></bean>
-    <alias name="userDao" alias="userDao2"/>
+   <!-- <bean id="userDao" class="com.kaishengit.dao.UserDao" scope="singleton" lazy-init="true" init-method="init" destroy-method="destory"></bean>
+    <alias name="userDao" alias="userDao2"/>-->
+    <bean id="userDao" class="com.kaishengit.dao.UserDao"></bean>
 
+    <bean id="userService" class="com.kaishengit.service.UserService" autowire="constructor"/>
+
+    <!--<bean id="userService" class="com.kaishengit.service.UserService" p:userDao-ref="userDao"></bean>-->
+
+     <!--<bean id="userService" class="com.kaishengit.service.UserService">
+        &lt;!&ndash;<constructor-arg type="com.kaishengit.dao.UserDao" ref="userDao"/>&ndash;&gt;
+         <constructor-arg index="0" ref="userDao"/>
+    </bean>-->
+
+
+    <bean id="diDemo" class="com.kaishengit.service.DiDemo">
+        <property name="score" value="23.23"/>
+        <property name="name" value="tom"/>
+        <property name="userList">
+            <list>
+                <value>aa</value>
+                <value>bb</value>
+                <value>cc</value>
+            </list>
+        </property>
+        <property name="userSet">
+            <set>
+                <value>aa</value>
+                <value>bb</value>
+                <value>cc</value>
+            </set>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="aa" value-ref="userDao"/>
+            </map>
+        </property>
+
+        <property name="config">
+            <props>
+                <prop key="aa">bb</prop>
+            </props>
+        </property>
+
+    </bean>
 </beans>

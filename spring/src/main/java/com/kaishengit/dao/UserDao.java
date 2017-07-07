@@ -6,19 +6,19 @@ package com.kaishengit.dao;
 
 public class UserDao {
 
-    public void init(){
+   /* public void init(){
         System.out.println("init .....");
     }
 
     public UserDao(){
         System.out.println("create user...");
-    }
+    }*/
 
     public void save(){
         System.out.println("save .....");
     }
 
-    public void destory(){
+   /* public void destory(){
         System.out.println("destory...");
-    }
+    }*/
 }
