@@ -18,6 +18,10 @@ public class UserService {
 
     public void save(){
         userDao.save();
+        /*if(true) {
+            throw new RuntimeException("系统异常");
+        }*/
+
     }
 
 

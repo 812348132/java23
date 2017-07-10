@@ -13,7 +13,15 @@ public class Test {
         enhancer.setCallback(new SubjectMethodInterceptor());
 
         Moves moves = (Moves) enhancer.create();
+        moves.move();
 
-        moves.move(); 
+
+      /*  Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(Moves.class);
+        enhancer.setCallback(new SubjectMethodInterceptor());
+
+        Moves moves = (Moves) enhancer.create();
+
+        moves.move();*/
     }
 }

@@ -17,6 +17,5 @@ public class UserServiceTest {
         UserService userService = (UserService) applicationContext.getBean("userService");
 
         userService.save();
-
     }
 }

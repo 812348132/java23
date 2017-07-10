@@ -14,7 +14,7 @@ public class UserDao {
         System.out.println("create user...");
     }*/
 
-    public void save(){
+    public void save() {
         System.out.println("save .....");
     }
 
