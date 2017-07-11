@@ -1,16 +1,25 @@
 package com.kaishengit.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by zjs on 2017/7/10.
  */
+
+@Component
+@Aspect
 public class AopAspect {
 
+    @Pointcut("execution(* com.kaishengit.service..*.*(..))")
+    public void printcut(){}
+
+    /*@Before("printcut()")*/
     public void beforeAdvice(){
         System.out.println("before...");
     }
-
+    /*@AfterReturning("printcut()")*/
     public void afterReturning(){
         System.out.println("afterReturning...");
     }
@@ -23,6 +32,7 @@ public class AopAspect {
         System.out.println("after......");
     }
 
+    @Around("printcut()")
     public void around(ProceedingJoinPoint proceedingJoinPoint){
         try {
             /*前置通知*/
