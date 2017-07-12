@@ -16,16 +16,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Application.class)
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class UserServiceTest {
 
     @Autowired
     private UserService userService;
 
+
     @Test
     public void save(){
+
+        userService.save();
         /*ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
         UserService userService = (UserService) applicationContext.getBean("userService");*/
-        userService.save();
+       // userService.save();
+    }
+
+    @Test
+    public void findById(){
+        userService.findById();
+    }
+
+    @Test
+    public void findAll(){
+        userService.findAll();
     }
 }

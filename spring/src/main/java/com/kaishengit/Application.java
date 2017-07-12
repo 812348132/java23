@@ -8,8 +8,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * Created by zjs on 2017/7/10.
  */
 
-@Configuration
-@ComponentScan
-@EnableAspectJAutoProxy
+
 public class Application {
 }
