@@ -1,6 +1,7 @@
 package com.kaishengit.service;
 
 import com.github.pagehelper.PageInfo;
+import com.kaishengit.Application;
 import com.kaishengit.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +16,9 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(classes = Application.class)
 public class UserServiceText {
+
 
     @Autowired
     private UserService userService;

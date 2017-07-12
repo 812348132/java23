@@ -7,10 +7,10 @@
     <!--开启自动扫描-->
     <context:component-scan base-package="com.kaishengit"/>
 
-    <!--读取config配置文件-->
-    <context:property-placeholder location="config.properties"/>
+    <!--获取配置文件-->
+    <context:property-placeholder location="classpath:config.properties"/>
 
-    <!--配置数据库连接池-->
+    <!--配置数据源-->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -18,29 +18,86 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <!--JDBC事务管理器-->
+    <!--配置事务管理器-->
     <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--配置基于注解的事务管理器-->
+    <!--开启基于注解的事务管理器-->
     <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
 
-    <!--MyBatis SqlSessionFoctory-->
+    <!--Mybatis SqlSessionFactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--配置数据源-->
         <property name="dataSource" ref="dataSource"/>
-        <!--加载mapper.xml类文件-->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
-        <!--加载别名类-->
+        <!--配置别名-->
         <property name="typeAliasesPackage" value="com.kaishengit.entity"/>
-        <!--其他配置-->
+        <!--加载mapper文件-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!--其他配置 (驼峰命名法)-->
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
                 <property name="mapUnderscoreToCamelCase" value="true"/>
             </bean>
         </property>
-        <!-- 添加插件 -->
+        <!--配置分页插件-->
+        <property name="plugins">
+            <bean class="com.github.pagehelper.PageInterceptor">
+                <property name="properties">
+                    <value>
+                        helperDialect=mysql
+                    </value>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--自动扫描Mapper接口，并创建接口的实现类，并将实现类放入到Spring容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.kaishengit.mapper"/>
+    </bean>
+
+
+
+
+
+    <!--&lt;!&ndash;开启自动扫描&ndash;&gt;
+    <context:component-scan base-package="com.kaishengit"/>
+
+    &lt;!&ndash;读取config配置文件&ndash;&gt;
+    <context:property-placeholder location="config.properties"/>
+
+    &lt;!&ndash;配置数据库连接池&ndash;&gt;
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    &lt;!&ndash;JDBC事务管理器&ndash;&gt;
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    &lt;!&ndash;配置基于注解的事务管理器&ndash;&gt;
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+
+    &lt;!&ndash;MyBatis SqlSessionFoctory&ndash;&gt;
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        &lt;!&ndash;配置数据源&ndash;&gt;
+        <property name="dataSource" ref="dataSource"/>
+        &lt;!&ndash;加载mapper.xml类文件&ndash;&gt;
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        &lt;!&ndash;加载别名类&ndash;&gt;
+        <property name="typeAliasesPackage" value="com.kaishengit.entity"/>
+        &lt;!&ndash;其他配置&ndash;&gt;
+        <property name="configuration">
+            <bean class="org.apache.sioibatis.sesn.Configuration">
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+            </bean>
+        </property>
+        &lt;!&ndash; 添加插件 &ndash;&gt;
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
@@ -54,8 +111,8 @@
         </property>
     </bean>
 
-    <!-- 自动扫描MyBaits中的Mapper接口，并自动创建接口的实现类，并将实现类放入到Spring容器中 -->
+    &lt;!&ndash; 自动扫描MyBaits中的Mapper接口，并自动创建接口的实现类，并将实现类放入到Spring容器中 &ndash;&gt;
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.kaishengit.mapper"/>
-    </bean>
+    </bean>-->
 </beans>
