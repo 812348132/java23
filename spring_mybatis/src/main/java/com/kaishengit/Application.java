@@ -1,7 +1,6 @@
 package com.kaishengit;
 
 import com.github.pagehelper.PageInterceptor;
-import javafx.beans.property.Property;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -16,7 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -26,7 +24,6 @@ import java.util.Properties;
 /**
  * Created by zjs on 2017/7/12.
  */
-
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
