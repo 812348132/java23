@@ -52,4 +52,24 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = customerMapper.findMyCustomerByParams(params);
         return new PageInfo<>(customers);
     }
+
+    @Override
+    public Customer findCustomerById(Integer id) {
+        return customerMapper.findCustomerById(id);
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        customer.setUpdateTime(new Date());
+        customerMapper.updateCustomer(customer);
+    }
+
+    @Override
+    public void delCustomerById(Integer id) {
+        //TODO 删除跟进记录
+        //TODO 删除日程安排
+        //TODO 删除相关资料
+        //删除客户
+        customerMapper.delCustomerById(id);
+    }
 }

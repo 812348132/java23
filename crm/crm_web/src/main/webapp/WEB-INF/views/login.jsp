@@ -35,6 +35,7 @@
             <p class="login-box-msg">${message}</p>
         </c:if>
          <form method="post" id="loginForm">
+             <input type="hidden" id="callback" value="${callback}">
             <div class="form-group has-feedback">
                 <input type="text" name="mobile" class="form-control" placeholder="手机号码" autofocus autocomplete="false">
             </div>
@@ -96,8 +97,9 @@
             submitHandler:function(){
                 $.post("/",$("#loginForm").serialize()).done(function(data){
                     if(data.state == "success") {
-                        if(${callback}) {
-                            window.location.href = ${callback};
+                        var callback = $("#callback").val();
+                        if(callback) {
+                            window.location.href = callback;
                         } else {
                             window.location.href = "/home";
                         }

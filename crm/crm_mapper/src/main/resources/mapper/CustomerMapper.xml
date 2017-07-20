@@ -27,4 +27,33 @@
         AND (cust_name like concat("%",#{keyword},"%")  OR mobile like concat("%",#{keyword},"%"))
         </if>
   </select>
+    
+    <select id="findCustomerById" resultType="Customer">
+        SELECT * FROM customer WHERE id = #{id}
+    </select>
+    
+    <update id="updateCustomer">
+              update
+                customer
+              SET
+                cust_name = #{custName},
+                job_title = #{jobTitle},
+                mobile = #{mobile},
+                address = #{address},
+                trade = #{trade,jdbcType=VARCHAR},
+                source = #{source},
+                level = #{level},
+                mark = #{mark},
+                account_id = #{accountId},
+                last_contact_time = #{lastContactTime},
+                create_time = #{createTime},
+                update_time = #{updateTime},
+                reminder = #{reminder},
+                sex = #{sex}
+            WHERE id = #{id}
+    </update>
+
+    <delete id="delCustomerById">
+        DELETE FROM customer WHERE id = #{id}
+    </delete>
 </mapper>

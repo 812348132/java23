@@ -12,4 +12,10 @@ public interface CustomerMapper {
     void saveCustomer(Customer customer);
 
     List<Customer> findMyCustomerByParams(Map<String, Object> params);
+
+    Customer findCustomerById(Integer id);
+
+    void updateCustomer(Customer customer);
+
+    void delCustomerById(Integer id);
 }

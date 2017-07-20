@@ -81,7 +81,7 @@
                             <th>联系方式</th>
                         </tr>
                         <c:forEach items="${pageInfo.list}" var="customer">
-                            <tr>
+                            <tr rel="${customer.id}" class="editCustomer">
                                 <td><span class="name-avatar" style="background-color:${customer.sex == '先生' ? '#ccc' : 'pink'};">${fn:substring(customer.custName,0,1)}</span></td>
                                 <td>
                                         ${customer.custName}
@@ -131,6 +131,11 @@
             href:"?p={{number}}"
         });
         </c:if>
+    });
+
+    $(".editCustomer").click(function(){
+        var id = $(this).attr("rel");
+        window.location.href = "/customer/info/"+id;
     });
 </script>
 
