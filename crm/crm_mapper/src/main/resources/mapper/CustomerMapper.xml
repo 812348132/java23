@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.crm.mapper.CustomerMapper">
+
+    <insert id="saveCustomer">
+      insert into customer (id, cust_name, job_title,
+      mobile, address, trade,
+      source, level, mark,
+      account_id, last_contact_time, create_time,
+      update_time, reminder, sex)
+      values (#{id},#{custName}, #{jobTitle},
+      #{mobile}, #{address}, #{trade},
+      #{source}, #{level}, #{mark},
+      #{accountId}, #{lastContactTime}, #{createTime},
+      #{updateTime}, #{reminder}, #{sex}
+      )
+    </insert>
+
+  <select id="findMyCustomerByParams" resultType="Customer">
+        SELECT
+	    *
+        FROM
+            customer
+        WHERE
+            account_id = #{accountId}
+        <if test="keyword != null and keyword !=''">
+        AND (cust_name like concat("%",#{keyword},"%")  OR mobile like concat("%",#{keyword},"%"))
+        </if>
+  </select>
+</mapper>

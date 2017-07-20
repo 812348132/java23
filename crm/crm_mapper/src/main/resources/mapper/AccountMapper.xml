@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from account
     where id = #{id,jdbcType=INTEGER}
@@ -101,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kaishengit.crm.entity.Account" useGeneratedKeys="true" keyProperty="id">
-    insert into account (id, user_name, password, 
+    insert into account (id, user_name, password,
       create_time, update_time, mobile
       )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}
       )
   </insert>
@@ -225,4 +225,66 @@
       mobile = #{mobile,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="countByDeptId" resultType="java.lang.Long">
+    SELECT
+        count(*)
+    FROM
+        account
+    <if test="deptId != null and deptId != ''">
+      LEFT JOIN account_dept ON account.id = account_dept.account_id
+      where account_dept.dept_id = #{deptId}
+    </if>
+  </select>
+
+  <select id="findByDeptId" resultMap="accountDeptMap">
+    SELECT
+    account.*, dept.id AS deptId,
+    dept.dept_name,
+    dept.p_id
+    FROM
+    account
+    LEFT JOIN account_dept ON account.id = account_dept.account_id
+    LEFT JOIN dept ON dept.id = account_dept.dept_id
+    <where>
+      <if test="deptId != null and deptId != ''">
+        account.id IN (
+        SELECT
+        account_id
+        FROM
+        account_dept
+        WHERE
+        dept_id = #{deptId}
+        )
+      </if>
+    </where>
+    ORDER by account.id desc
+  </select>
+
+  <resultMap id="accountDeptMap" type="com.kaishengit.crm.entity.Account">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+    <collection property="deptList" ofType="Dept">
+      <id column="deptId" jdbcType="INTEGER" property="id" />
+      <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+      <result column="p_id" jdbcType="INTEGER" property="pId" />
+    </collection>
+  </resultMap>
+
+  <select id="findByMobileLoadDept" resultMap="accountDeptMap">
+      SELECT
+    account.*, dept.id AS deptId,
+    dept.dept_name,
+    dept.p_id
+    FROM
+    account
+    LEFT JOIN account_dept ON account.id = account_dept.account_id
+    LEFT JOIN dept ON dept.id = account_dept.dept_id
+    WHERE account.mobile = #{mobile}
+  </select>
+
 </mapper>

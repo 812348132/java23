@@ -22,6 +22,14 @@
             <groupId>com.kaishengit</groupId>
             <artifactId>crm_mapper</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kaishengit</groupId>
+            <artifactId>crm_common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

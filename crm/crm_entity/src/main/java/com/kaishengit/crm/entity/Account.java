@@ -2,9 +2,10 @@ package com.kaishengit.crm.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @author 
+ * @author
  */
 public class Account implements Serializable {
     private Integer id;
@@ -33,6 +34,11 @@ public class Account implements Serializable {
      * 手机号码
      */
     private String mobile;
+
+    /**
+     * 部门集合
+     */
+    private List<Dept> deptList;
 
     private static final long serialVersionUID = 1L;
 
@@ -82,5 +88,13 @@ public class Account implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public List<Dept> getDeptList() {
+        return deptList;
+    }
+
+    public void setDeptList(List<Dept> deptList) {
+        this.deptList = deptList;
     }
 }

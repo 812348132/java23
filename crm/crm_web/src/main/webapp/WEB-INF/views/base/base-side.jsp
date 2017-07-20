@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- 顶部导航栏部分 -->
 <header class="main-header">
     <!-- Logo -->
@@ -24,7 +26,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/static/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">李美苏</span>
+                        <span class="hidden-xs">${sessionScope.curr_user.userName}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -32,8 +34,12 @@
                             <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                李美苏
-                                <small>海外事业部</small>
+                                ${sessionScope.curr_user.userName}
+                                <small>
+                                    <c:forEach items="${sessionScope.curr_user.deptList}" var="dept">
+                                        ${dept.deptName} &nbsp;&nbsp;
+                                    </c:forEach>
+                                </small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
@@ -72,9 +78,10 @@
         <!-- /.search form -->
         <!-- 菜单 -->
         <ul class="sidebar-menu">
+            <li class="${param.active == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-users"></i> <span>首页</span></a></li>
             <li class="header">系统功能</li>
             <!-- 客户管理 -->
-            <li class="treeview">
+            <li class="treeview ${fn:startsWith(param.active,'customer_') ? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-address-book-o"></i> <span>客户管理</span>
                     <span class="pull-right-container">
@@ -82,7 +89,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/customer/my"><i class="fa fa-circle-o"></i> 我的客户</a></li>
+                    <li class="${param.active == 'customer_my' ? 'active' : ''}"><a href="/customer/my"><i class="fa fa-circle-o"></i> 我的客户</a></li>
                     <li><a href="/customer/public"><i class="fa fa-circle-o"></i> 公海客户</a></li>
                 </ul>
             </li>
@@ -130,7 +137,7 @@
             <li><a href="../../documentation/index.html"><i class="fa fa-share-alt"></i> <span>公司网盘</span></a></li>
             <li class="header">系统管理</li>
             <!-- 部门员工管理 -->
-            <li class="active"><a href="../../documentation/index.html"><i class="fa fa-users"></i> <span>员工管理</span></a></li>
+            <li class="${param.active == 'manageAccount' ? 'active' : ''}"><a href="/manage/account"><i class="fa fa-users"></i> <span>员工管理</span></a></li>
             <!--<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>-->
         </ul>
