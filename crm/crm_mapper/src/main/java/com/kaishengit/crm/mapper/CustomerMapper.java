@@ -1,6 +1,8 @@
 package com.kaishengit.crm.mapper;
 
 import com.kaishengit.crm.entity.Customer;
+import com.kaishengit.crm.entity.SalesRecord;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +20,8 @@ public interface CustomerMapper {
     void updateCustomer(Customer customer);
 
     void delCustomerById(Integer id);
+
+    List<Customer> findCustomerByAccountId(@Param("accountId") Integer id);
+
+    List<Customer> findAllCustomer();
 }

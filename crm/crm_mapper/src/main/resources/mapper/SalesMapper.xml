@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.crm.mapper.SalesMapper">
+
+    <insert id="saveSales" parameterType="SalesRecord" useGeneratedKeys= "true" keyProperty="id">
+        insert into salesrecord (customer_id,sales_value,current,sales_name,account_id,create_time,follow_time)
+        VALUES (#{customerId},#{salesValue},#{current},#{salesName},#{accountId},#{createTime},#{followTime})
+    </insert>
+
+    <select id="findAll" resultMap="salesRecordMapper">
+        SELECT salesrecord.*,customer.id as customer_id,customer.cust_name,customer.last_contact_time FROM salesrecord,customer WHERE salesrecord.customer_id = customer.id
+        <if test="accountId != null">
+            AND salesrecord.account_id = #{accountId}
+        </if>
+        <if test="keyword != null and keyword !=''">
+            AND (sales_name like concat("%",#{keyword},"%")  OR sales_value like concat("%",#{keyword},"%"))
+        </if>
+        ORDER BY customer.last_contact_time DESC
+    </select>
+
+    <resultMap id="salesRecordMapper" type="SalesRecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sales_name" jdbcType="VARCHAR" property="salesName"/>
+        <result column="sales_value" jdbcType="VARCHAR" property="salesValue"/>
+        <result column="current" jdbcType="VARCHAR" property="current"/>
+        <result column="account_id" jdbcType="INTEGER" property="accountId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="follow_time" property="followTime"/>
+        <collection property="customer" ofType="Customer">
+            <id column="customer_id" jdbcType="INTEGER" property="id"/>
+            <result column="cust_name" jdbcType="VARCHAR" property="custName"/>
+            <result column="job_title" jdbcType="VARCHAR" property="jobTitle"/>
+            <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+            <result column="address" jdbcType="VARCHAR" property="address"/>
+            <result column="trade" jdbcType="VARCHAR" property="trade"/>
+            <result column="source" jdbcType="VARCHAR" property="source"/>
+            <result column="level" jdbcType="VARCHAR" property="level"/>
+            <result column="mark" jdbcType="VARCHAR" property="mark"/>
+            <result column="account_id" jdbcType="INTEGER" property="accountId"/>
+            <result column="last_contact_time" jdbcType="TIMESTAMP" property="lastContactTime"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="reminder" jdbcType="VARCHAR" property="reminder"/>
+            <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        </collection>
+    </resultMap>
+
+    <select id="findById" resultType="SalesRecord">
+        SELECT * FROM salesrecord WHERE id = #{id}
+    </select>
+    
+    <update id="updateSales">
+        UPDATE salesrecord SET current = #{current} WHERE id = #{id}
+    </update>
+
+    <delete id="delSalesRecoredById">
+        DELETE FROM salesrecord WHERE id = #{id}
+    </delete>
+
+    <select id="findAllByCustomerId" resultType="SalesRecord">
+        select * from salesrecord WHERE customer_id = #{customerId};
+    </select>
+</mapper>

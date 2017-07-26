@@ -104,6 +104,9 @@ public class AccountServiceImpl implements AccountService{
     public Account login(String mobile, String password) {
         //查询是否存在
         Account account = accountMapper.findByMobileLoadDept(mobile);
+        if(account == null) {
+            throw new AuthenticationException("账号或密码错误");
+        }
         //判断password是否相同
         if(account.getPassword().equals(DigestUtils.md5Hex(passwordSalt + password))) {
             return account;
@@ -127,5 +130,13 @@ public class AccountServiceImpl implements AccountService{
         } else {
             throw  new ServiceException("旧密码不正确");
         }
+    }
+
+    @Override
+    public Account findAccountById(Integer accountId) {
+        AccountExample accountExample = new AccountExample();
+        accountExample.createCriteria().andIdEqualTo(accountId);
+        Account account = accountMapper.selectByExample(accountExample).get(0);
+        return account;
     }
 }

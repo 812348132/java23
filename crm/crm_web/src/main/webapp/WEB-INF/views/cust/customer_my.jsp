@@ -53,14 +53,13 @@
                 </div>
             </div>
 
-
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">我的客户</h3>
                     <div class="box-tools pull-right">
                         <a href="/customer/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增客户</a>
-                        <button class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> 导出Excel</button>
+                        <a href="/customer/export" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> 导出Excel</a>
                     </div>
                 </div>
                 <div class="box-body no-padding">
@@ -80,6 +79,11 @@
                             <th>级别</th>
                             <th>联系方式</th>
                         </tr>
+                        <c:if test="${empty pageInfo.list}">
+                            <tr>
+                                <td colspan="6">你还没有任何客户，加油！✊</td>
+                            </tr>
+                        </c:if>
                         <c:forEach items="${pageInfo.list}" var="customer">
                             <tr rel="${customer.id}" class="editCustomer">
                                 <td><span class="name-avatar" style="background-color:${customer.sex == '先生' ? '#ccc' : 'pink'};">${fn:substring(customer.custName,0,1)}</span></td>
@@ -128,7 +132,7 @@
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href:"?p={{number}}"
+            href:"?p={{number}}&keyword=${keyword}"
         });
         </c:if>
     });

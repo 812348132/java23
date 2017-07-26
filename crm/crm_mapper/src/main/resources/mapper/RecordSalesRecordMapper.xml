@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.crm.mapper.RecordSalesRecordMapper">
+
+    <insert id="saveRecord" parameterType="RecordSalesRecord">
+        insert into record_salesrecord (content,salersrecord_id,create_time)
+        VALUES (#{content},#{salersrecordId},#{createTime})
+    </insert>
+
+    <select id="findBySalesRecordId" resultType="RecordSalesRecord">
+        SELECT * FROM record_salesrecord WHERE salersrecord_id = #{salesRecordId}
+    </select>
+    
+    <delete id="delBySalesRecordId">
+        DELETE FROM record_salesrecord WHERE salersrecord_id = #{salesRecordId}
+    </delete>
+
+</mapper>

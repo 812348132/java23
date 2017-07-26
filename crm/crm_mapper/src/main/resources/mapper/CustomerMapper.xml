@@ -22,10 +22,18 @@
         FROM
             customer
         WHERE
-            account_id = #{accountId}
+        <choose>
+            <when test="accountId != null">
+                account_id = #{accountId}
+            </when>
+            <otherwise>
+                account_id is null
+            </otherwise>
+        </choose>
         <if test="keyword != null and keyword !=''">
         AND (cust_name like concat("%",#{keyword},"%")  OR mobile like concat("%",#{keyword},"%"))
         </if>
+        ORDER BY id,update_time DESC
   </select>
     
     <select id="findCustomerById" resultType="Customer">
@@ -56,4 +64,20 @@
     <delete id="delCustomerById">
         DELETE FROM customer WHERE id = #{id}
     </delete>
+
+    <select id="findCustomerByAccountId" resultType="Customer">
+        SELECT * FROM customer WHERE
+        <choose>
+          <when test="accountId != null">
+              account_id = #{accountId}
+          </when>
+          <otherwise>
+              account_id is null
+          </otherwise>
+       </choose>
+    </select>
+    
+    <select id="findAllCustomer" resultType="Customer">
+        SELECT * FROM customer
+    </select>
 </mapper>

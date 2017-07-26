@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.crm.mapper.TaskMapper">
+
+
+    <insert id="saveTask">
+        insert into task (title,salesrecord_id,account_id,customer_id,done,done_time,alert_time,create_time)
+        VALUES (#{title},#{salesRecordId},#{accountId},#{customerId},#{done},#{doneTime},#{alertTime},#{createTime})
+    </insert>
+
+    <select id="findTaskByCustId" resultType="Task" >
+        SELECT * FROM task WHERE customer_id = #{customerId}
+    </select>
+    
+    <select id="findTaskBySalesId" resultType="Task">
+        SELECT * FROM task WHERE salesrecord_id = #{salesRecordId}
+    </select>
+
+    <select id="findAllTaskByAccountId" resultMap="showTaskMap">
+        SELECT
+          task.*, cust.cust_name,
+          cust.job_title,
+          cust.mobile,
+          cust.address,
+          cust.trade,
+          cust.source,
+          cust.`level`,
+          cust.mark,
+          cust.account_id AS cust_account_id,
+          cust.last_contact_time,
+          cust.create_time AS cust_create_time,
+          cust.update_time,
+          cust.reminder,
+          cust.sex,
+          sale.sales_name,
+          sale.customer_id AS sale_cust_id,
+          sale.sales_value,
+          sale.current,
+          sale.create_time AS sale_create_time,
+          sale.follow_time,
+          sale.account_id AS sale_account_id
+      FROM
+          task
+      LEFT JOIN customer AS cust ON task.customer_id = cust.id
+      LEFT JOIN salesrecord AS sale ON task.salesrecord_id = sale.id
+      WHERE task.account_id = #{accountId}
+        <if test="not showAll">
+            and task.done = 0
+        </if>
+        ORDER BY done_time ASC
+    </select>
+
+    <resultMap id="showTaskMap" type="Task">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="salesrecord_id" property="salesRecordId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="done" property="done"/>
+        <result column="done_time" property="doneTime"/>
+        <result column="alert_time" property="alertTime"/>
+        <result column="create_time" property="createTime"/>
+        <association property="customer" javaType="Customer">
+            <id column="cust_id" jdbcType="INTEGER" property="id"/>
+            <result column="cust_name" jdbcType="VARCHAR" property="custName"/>
+            <result column="job_title" jdbcType="VARCHAR" property="jobTitle"/>
+            <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+            <result column="address" jdbcType="VARCHAR" property="address"/>
+            <result column="trade" jdbcType="VARCHAR" property="trade"/>
+            <result column="source" jdbcType="VARCHAR" property="source"/>
+            <result column="level" jdbcType="VARCHAR" property="level"/>
+            <result column="mark" jdbcType="VARCHAR" property="mark"/>
+            <result column="cust_account_id" jdbcType="INTEGER" property="accountId"/>
+            <result column="last_contact_time" jdbcType="TIMESTAMP" property="lastContactTime"/>
+            <result column="cust_create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="reminder" jdbcType="VARCHAR" property="reminder"/>
+            <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        </association>
+        <association property="salesRecord" javaType="SalesRecord">
+            <id column="sale_id" jdbcType="INTEGER" property="id"/>
+            <result column="sales_name" jdbcType="VARCHAR" property="salesName"/>
+            <result column="sale_cust_id" jdbcType="INTEGER" property="customerId"/>
+            <result column="sales-value" jdbcType="REAL" property="salesValue"/>
+            <result column="current" jdbcType="VARCHAR" property="current"/>
+            <result column="sale_create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="follow_time" jdbcType="TIMESTAMP" property="followTime"/>
+            <result column="sale_account_id" jdbcType="INTEGER" property="accountId"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllTaskById" resultType="Task">
+        SELECT * FROM task WHERE id = #{id}
+    </select>
+
+    <update id="updateTask">
+      update task
+      set title = #{title},
+      salesrecord_id = #{salesRecordId},
+      customer_id = #{customerId},
+      done = #{done},
+      done_time = #{doneTime},
+      alert_time = #{alertTime},
+      create_time = #{createTime}
+      where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <select id="findById" resultType="Task">
+        SELECT * FROM task WHERE id = #{id}
+    </select>
+    
+    <delete id="delTask">
+        DELETE FROM task WHERE id = #{id}
+    </delete>
+</mapper>

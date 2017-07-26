@@ -30,6 +30,10 @@
             <groupId>com.kaishengit</groupId>
             <artifactId>crm_common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

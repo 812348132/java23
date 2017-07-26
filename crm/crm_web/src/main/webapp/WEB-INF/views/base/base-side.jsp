@@ -90,24 +90,24 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="${param.active == 'customer_my' ? 'active' : ''}"><a href="/customer/my"><i class="fa fa-circle-o"></i> 我的客户</a></li>
-                    <li><a href="/customer/public"><i class="fa fa-circle-o"></i> 公海客户</a></li>
+                    <li class="${param.active == 'customer_public' ? 'active' : ''}" ><a href="/customer/public"><i class="fa fa-circle-o"></i> 公海客户</a></li>
                 </ul>
             </li>
             <!-- 工作记录 -->
-            <li class="treeview">
+            <li class="treeview ${fn:startsWith(param.active,'sales_') ? 'active' : ''}">
                 <a href="#">
-                    <i class="fa fa-bars"></i> <span>工作记录</span>
+                    <i class="fa fa-bars"></i> <span>销售机会</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/recode/my"><i class="fa fa-circle-o"></i> 我的记录</a></li>
+                    <li class="${param.active == 'sales_my' ? 'active' : ''}"><a href="/sales/my"><i class="fa fa-circle-o"></i> 我的记录</a></li>
                     <li><a href="/recode/public"><i class="fa fa-circle-o"></i> 公共记录</a></li>
                 </ul>
             </li>
             <!-- 待办事项 -->
-            <li class="treeview">
+            <li class="treeview ${fn:startsWith(param.active,'task_') ? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-calendar"></i> <span>待办事项</span>
                     <span class="pull-right-container">
@@ -115,7 +115,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/task"><i class="fa fa-circle-o"></i> 待办列表</a></li>
+                    <li class="${param.active == 'task_my' ? 'active' : ''}"><a href="/task/my"><i class="fa fa-circle-o"></i> 待办列表</a></li>
                     <li><a href=""><i class="fa fa-circle-o"></i> 逾期事项</a></li>
                 </ul>
             </li>
