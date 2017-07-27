@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.crm.mapper.DiskMapper">
+
+    <select id="findDiskByPid" resultType="Disk">
+        SELECT * FROM disk WHERE p_id = #{pid};
+    </select>
+
+    <select id="findDiskById" resultType="Disk">
+        SELECT * FROM disk WHERE id = #{id};
+    </select>
+
+    <insert id="saveNewFolder" >
+        insert into disk (name,file_size,p_id,type,update_time,save_name,account_id,download_count,password,md5)
+        VALUES (#{name},#{fileSize},#{pId},#{type},#{updateTime},#{saveName},#{accountId},#{downloadCount},#{password},#{md5})
+    </insert>
+
+    <update id="updateDisk">
+        UPDATE disk set name = #{name},
+        <if test="fileSize != null">
+            file_size=#{fileSize},
+        </if>
+        <if test="pId != null">
+            p_id=#{pId},
+        </if>
+        <if test="type != null">
+            type=#{type},
+        </if>
+        update_time=#{updateTime},
+        <if test="saveName != null">
+        save_name=#{saveName},
+        </if>
+        account_id=#{accountId},
+        <if test="downloadCount != null">
+            download_count=#{downloadCount},
+        </if>
+        password=#{password},md5=#{md5}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="delDiskById">
+        DELETE FROM disk WHERE id = #{id}
+    </delete>
+
+</mapper>

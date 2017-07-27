@@ -3,7 +3,7 @@
 <mapper namespace="com.kaishengit.crm.mapper.TaskMapper">
 
 
-    <insert id="saveTask">
+    <insert id="saveTask" useGeneratedKeys="true" keyProperty="id">
         insert into task (title,salesrecord_id,account_id,customer_id,done,done_time,alert_time,create_time)
         VALUES (#{title},#{salesRecordId},#{accountId},#{customerId},#{done},#{doneTime},#{alertTime},#{createTime})
     </insert>
@@ -18,7 +18,8 @@
 
     <select id="findAllTaskByAccountId" resultMap="showTaskMap">
         SELECT
-          task.*, cust.cust_name,
+          task.*,cust.id as cust_id,
+          cust.cust_name,
           cust.job_title,
           cust.mobile,
           cust.address,
@@ -32,6 +33,7 @@
           cust.update_time,
           cust.reminder,
           cust.sex,
+          sale.id as sale_id,
           sale.sales_name,
           sale.customer_id AS sale_cust_id,
           sale.sales_value,

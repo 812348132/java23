@@ -46,10 +46,10 @@
                                 <span class="text">${task.title}</span>
                                 <c:choose>
                                     <c:when test="${not empty task.customer and not empty task.customer.id}">
-                                        <a href="/customer/my/${task.customer.id}"><i class="fa fa-user-o"></i> ${task.customer.custName}</a>
+                                        <a href="/customer/info/${task.customer.id}"><i class="fa fa-user-o"></i> ${task.customer.custName}</a>
                                     </c:when>
                                     <c:when test="${not empty task.salesRecord and not empty task.salesRecord.id}">
-                                        <a href="/sales/my/${task.salesRecord.id}"><i class="fa fa-money"></i> ${task.salesRecord.salesName}</a>
+                                        <a href="/sales/record/${task.salesRecord.id}"><i class="fa fa-money"></i> ${task.salesRecord.salesName}</a>
                                     </c:when>
                                 </c:choose>
                                 <small class="label label-danger"><i class="fa fa-clock-o"></i> ${task.alertTime}</small>
