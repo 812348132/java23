@@ -52,8 +52,10 @@ public class TaskServiceImpl implements TaskService {
         if(StringUtils.isNotEmpty(task.getAlertTime())) {
             //添加参数
             JobDataMap jobDataMap = new JobDataMap();
-            jobDataMap.put("to",task.getAccountId());
-            jobDataMap.put("message",task.getTitle());
+           /* jobDataMap.put("to",task.getAccountId());
+            jobDataMap.put("message",task.getTitle());*/
+           jobDataMap.putAsString("to",task.getAccountId());
+           jobDataMap.put("message",task.getTitle());
 
             //调度器
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -119,8 +121,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void delTask(Task task) {
-        taskMapper.delTask(task);
         //判断删除的Task是否有提醒时间，如果有则删除定时任务
         if(StringUtils.isNotEmpty(task.getAlertTime())) {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -130,6 +132,7 @@ public class TaskServiceImpl implements TaskService {
                 throw new ServiceException("删除调度器任务异常",ex);
             }
         }
+        taskMapper.delTask(task);
     }
 
 }

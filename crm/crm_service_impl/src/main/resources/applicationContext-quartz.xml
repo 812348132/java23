@@ -3,25 +3,44 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="springJob" class="com.kaishengit.quartz.jobs.SpringJob"></bean>
+    <!--<bean id="springJob" class="com.kaishengit.quartz.jobs.SpringJob"></bean>-->
 
-    <!--定义Job任务-->
+   <!-- &lt;!&ndash;定义Job任务&ndash;&gt;
     <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="springJob"/>
         <property name="targetMethod" value="sayHello"/>
+    </bean>-->
+    <!--指定job-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.kaishengit.quartz.jobs.SpringJob"/>
+        <!--如果是循环任务，则必须设置该项-->
+        <property name="durability" value="true"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="message" value="from Spring"/>
+            </map>
+        </property>
     </bean>
 
     <!--定义触发器-->
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail"/>
-        <property name="cronExpression" value="0/5 * * * * ? *"/>
+        <property name="cronExpression" value="5 * * * * ? *"/>
     </bean>
 
     <!--定义调度器-->
     <bean id="stdScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--定义数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--事务管理器-->
+        <property name="transactionManager" ref="transactionManager"/>
+        <!--读取配置文件-->
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <!--是否覆盖数据库中已存在的任务-->
+        <property name="overwriteExistingJobs" value="true"/>
         <property name="triggers">
             <list>
-                <!--<ref bean="cronTrigger"/>-->
+                <ref bean="cronTrigger"/>
             </list>
         </property>
     </bean>

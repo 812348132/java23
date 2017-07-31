@@ -80,4 +80,8 @@
     <select id="findAllCustomer" resultType="Customer">
         SELECT * FROM customer
     </select>
+
+    <select id="findCostomerLevelCount" resultType="java.util.Map">
+        select level,count(*) as num from customer GROUP BY level
+    </select>
 </mapper>

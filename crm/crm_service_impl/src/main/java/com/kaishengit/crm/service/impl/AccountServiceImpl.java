@@ -7,6 +7,7 @@ import com.kaishengit.crm.entity.AccountExample;
 import com.kaishengit.crm.mapper.AccountDeptMapper;
 import com.kaishengit.crm.service.AccountService;
 import com.kaishengit.crm.mapper.AccountMapper;
+import com.kaishengit.crm.weixin.WeiXinUtil;
 import com.kaishengit.exception.AuthenticationException;
 import com.kaishengit.exception.ServiceException;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -32,6 +33,9 @@ public class AccountServiceImpl implements AccountService{
 
     @Autowired
     private AccountDeptMapper accountDeptMapper;
+
+    @Autowired
+    private WeiXinUtil weiXinUtil;
     @Override
     public List<Account> findAllAccount() {
         return accountMapper.selectByExample(new AccountExample());
@@ -52,9 +56,10 @@ public class AccountServiceImpl implements AccountService{
             AccountDeptKey accountDeptKey = new AccountDeptKey();
             accountDeptKey.setAccountId(account.getId());
             accountDeptKey.setDeptId(deptId);
-
             accountDeptMapper.insert(accountDeptKey);
         }
+        //同步到微信
+        weiXinUtil.createAccount(account.getId(),account.getUserName(),deptIds,account.getMobile());
     }
 
     @Override
@@ -85,6 +90,8 @@ public class AccountServiceImpl implements AccountService{
     @Override
     @Transactional
     public void delAccountById(Integer id) {
+        //从微信中删除账号
+        weiXinUtil.deleteAccountById(id.toString());
         //删除关系
         AccountDeptExample accountDeptExample = new AccountDeptExample();
         accountDeptExample.createCriteria().andAccountIdEqualTo(id);

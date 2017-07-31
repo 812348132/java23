@@ -60,4 +60,8 @@
     <select id="findAllByCustomerId" resultType="SalesRecord">
         select * from salesrecord WHERE customer_id = #{customerId};
     </select>
+
+    <delete id="delSalesRecoredByCustomerId">
+        DELETE FROM salesrecord WHERE customer_id = #{customerId}
+    </delete>
 </mapper>

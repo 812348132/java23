@@ -1,12 +1,12 @@
 package com.kaishengit.crm.service.impl;
 
 import com.kaishengit.crm.entity.AccountDeptExample;
-import com.kaishengit.crm.entity.AccountExample;
 import com.kaishengit.crm.entity.Dept;
 import com.kaishengit.crm.entity.DeptExample;
 import com.kaishengit.crm.mapper.AccountDeptMapper;
 import com.kaishengit.crm.mapper.DeptMapper;
 import com.kaishengit.crm.service.DeptService;
+import com.kaishengit.crm.weixin.WeiXinUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +25,24 @@ public class DeptServiceImpl implements DeptService {
     @Autowired
     private AccountDeptMapper accountDeptMapper;
 
+    @Autowired
+    private WeiXinUtil weixinUtil;
+
     @Override
     public List<Dept> findAll() {
         return deptMapper.selectByExample(new DeptExample());
     }
 
+    /**
+     * 添加部门
+     * @param dept
+     */
     @Override
+    @Transactional
     public void save(Dept dept) {
         deptMapper.insert(dept);
+        //同步到微信
+        weixinUtil.createDept(dept.getId(),dept.getpId(),dept.getDeptName());
     }
 
     /**
@@ -50,5 +60,8 @@ public class DeptServiceImpl implements DeptService {
         DeptExample deptExample = new DeptExample();
         deptExample.createCriteria().andIdEqualTo(id);
         deptMapper.deleteByExample(deptExample);
+
+        //同步到微信
+        weixinUtil.deleteDeptById(id.toString());
     }
 }

@@ -4,8 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kaishengit.crm.entity.Account;
 import com.kaishengit.crm.entity.Customer;
+import com.kaishengit.crm.entity.RecordSalesRecord;
+import com.kaishengit.crm.entity.SalesRecord;
 import com.kaishengit.crm.mapper.CustomerMapper;
+import com.kaishengit.crm.mapper.RecordSalesRecordMapper;
+import com.kaishengit.crm.mapper.SalesMapper;
 import com.kaishengit.crm.service.CustomerService;
+import com.kaishengit.crm.weixin.WeiXinUtil;
 import com.kaishengit.exception.ServiceException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,6 +20,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -34,7 +40,14 @@ public class CustomerServiceImpl implements CustomerService {
     private List<String> sourceList;
 
     @Autowired
+    private WeiXinUtil weiXinUtil;
+
+    @Autowired
     private CustomerMapper customerMapper;
+   /* @Autowired
+    private SalesMapper salesMapper;
+    @Autowired
+    private RecordSalesRecordMapper recordSalesRecordMapper;*/
 
     @Override
     public List<String> findAllTrade() {
@@ -51,6 +64,8 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setAccountId(account.getId());
         customer.setCreateTime(new Date());
         customerMapper.saveCustomer(customer);
+
+        weiXinUtil.sendTextMessageToUser("新增客户[ "+ customer.getCustName() +" ]","ZhaoJinShuai");
     }
 
     @Override
@@ -73,9 +88,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void delCustomerById(Integer id) {
-        //TODO 删除跟进记录
+
         //TODO 删除日程安排
+         /*Customer customer = customerMapper.findCustomerById(id);
+        List<SalesRecord> salesRecords = salesMapper.findAllByCustomerId(customer.getId());
+        for (SalesRecord salesRecord : salesRecords) {
+            recordSalesRecordMapper.delBySalesRecordId(salesRecord.getId());
+        }*/
+        //TODO 删除销售机会
+       /* salesMapper.delSalesRecoredByCustomerId(customer.getId());*/
+
+
         //TODO 删除相关资料
         //删除客户
         customerMapper.delCustomerById(id);
@@ -179,5 +204,10 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (Exception e) {
             throw new ServiceException("导出失败");
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> findCustomerLevelCount() {
+        return customerMapper.findCostomerLevelCount();
     }
 }

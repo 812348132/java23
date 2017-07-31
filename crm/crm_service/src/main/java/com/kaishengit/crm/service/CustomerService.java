@@ -38,5 +38,7 @@ public interface CustomerService {
     void savePublicCustomer(Customer customer);
 
     void customerPublicToExcel(OutputStream outputStream);
+
+    List<Map<String,Object>> findCustomerLevelCount();
 }
 

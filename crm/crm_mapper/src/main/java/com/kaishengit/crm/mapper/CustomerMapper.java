@@ -24,4 +24,6 @@ public interface CustomerMapper {
     List<Customer> findCustomerByAccountId(@Param("accountId") Integer id);
 
     List<Customer> findAllCustomer();
+
+    List<Map<String,Object>> findCostomerLevelCount();
 }

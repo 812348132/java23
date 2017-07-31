@@ -19,4 +19,6 @@ public interface SalesMapper {
     void delSalesRecoredById(Integer id);
 
     List<SalesRecord> findAllByCustomerId(@Param("customerId") Integer id);
+
+    void delSalesRecoredByCustomerId(@Param("customerId") Integer id);
 }

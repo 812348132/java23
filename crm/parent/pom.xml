@@ -42,6 +42,8 @@
         <quartz-version>2.2.1</quartz-version>
         <cron-util-version>6.0.2</cron-util-version>
         <joda-time-version>2.9.9</joda-time-version>
+        <ok-http-version>3.8.1</ok-http-version>
+        <fastjson-version>1.2.35</fastjson-version>
 
         <crm_entity_version>1.0-SNAPSHOT</crm_entity_version>
         <crm_mapper_version>1.0-SNAPSHOT</crm_mapper_version>
@@ -209,6 +211,16 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${ok-http-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson-version}</version>
             </dependency>
 
 

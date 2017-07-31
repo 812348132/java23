@@ -1,10 +1,16 @@
 package com.kaishengit.quartz.jobs;
 
-import org.springframework.stereotype.Component;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
-public class SpringJob {
+public class SpringJob implements Job {
 
-    public void sayHello(){
-        System.out.println("Hello,Spring+Quartz");
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+        String message = jobDataMap.getString("message");
+        System.out.println("Hello,Spring+Quartz~~~~~~~~~~~~~~~~~~" + message);
     }
 }

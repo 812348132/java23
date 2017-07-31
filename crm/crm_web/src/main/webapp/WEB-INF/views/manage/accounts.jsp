@@ -193,7 +193,7 @@
            callback:{
                onClick:function(event,treeId,treeNode,clickFlag){
                    //alert(treeNode.id + treeNode.name + treeNode.pId);
-                   if(treeNode.id != 1000){
+                   if(treeNode.id != 1){
                        $("#delDeptBtn").attr("rel",treeNode.id).text("删除"+treeNode.name).show();
                    } else {
                        $("#delDeptBtn").hide();
@@ -209,7 +209,7 @@
         $("#addDeptBtn").click(function () {
             layer.prompt({"title":"请输入部门"},function (text,index) {
                 layer.close(index);
-                $.post("/manage/account/dept/new",{"deptName":text,"pId":1000}).done(function (data) {
+                $.post("/manage/account/dept/new",{"deptName":text,"pId":1}).done(function (data) {
                     if(data.state == "success"){
                         layer.msg("添加成功");
                         tree.reAsyncChildNodes(null,"refresh");
@@ -230,7 +230,7 @@
 
                 for(var i = 0;i < data.length;i++){
                     var obj = data[i];
-                    if(obj.id != 1000) {
+                    if(obj.id != 1) {
                         var html = '<label  class="checkbox-inline"><input type="checkbox" name="deptId" value="' + obj.id + '"> ' + obj.name + '</label>';
                         $(html).appendTo($("#deptArea"));
                     }
